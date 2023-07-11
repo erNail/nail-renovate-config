@@ -9,6 +9,7 @@ module.exports = {
   labels: ["Renovate"],
   repositories: [
     "erNail/erNail.github.io",
-    "erNail/nail-renovate-config"
+    "erNail/nail-renovate-config",
+    "erNail/glpushrule"
   ],
 };
