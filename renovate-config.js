@@ -8,8 +8,8 @@ module.exports = {
   onboarding: true,
   labels: ["Renovate"],
   repositories: [
-    "erNail/erNail.github.io",
-    "erNail/nail-renovate-config",
-    "erNail/glpushrule"
+    'erNail/erNail.github.io',
+    'erNail/nail-renovate-config',
+    'erNail/glpushrule'
   ],
 };
