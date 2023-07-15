@@ -1,4 +1,5 @@
 module.exports = {
+  extends: [':semanticPrefixFixDepsChoreOthers'],
   platform: 'github',
   branchPrefix: 'dependency-update/',
   rangeStrategy: 'pin',
