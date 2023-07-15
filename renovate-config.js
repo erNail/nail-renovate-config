@@ -1,6 +1,7 @@
 module.exports = {
   platform: 'github',
   branchPrefix: 'dependency-update/',
+  rangeStrategy: 'pin',
   semanticCommitScope: 'dependencies',
   commitMessageLowerCase: 'never',
   username: 'renovate-bot',
