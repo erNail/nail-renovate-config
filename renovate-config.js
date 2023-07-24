@@ -12,6 +12,7 @@ module.exports = {
   repositories: [
     'erNail/erNail.github.io',
     'erNail/nail-renovate-config',
-    'erNail/glpushrule'
+    'erNail/glpushrule',
+    'erNail/grafaml'
   ],
 };
