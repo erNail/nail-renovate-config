@@ -19,7 +19,7 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.6.0"
+        uses: "actions/checkout@v4.1.0"
       - name: "Set up python and pip cache"
         uses: "actions/setup-python@v4.7.0"
         with:
@@ -39,7 +39,7 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.6.0"
+        uses: "actions/checkout@v4.1.0"
       - name: "Run Renovate"
         uses: "renovatebot/github-action@v39.0.5"
         with:
@@ -52,7 +52,7 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v3.6.0"
+        uses: "actions/checkout@v4.1.0"
       - name: "Run semantic-release"
         uses: "cycjimmy/semantic-release-action@v4.0.0"
         env:
