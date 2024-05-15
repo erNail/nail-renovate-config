@@ -5,6 +5,9 @@ module.exports = {
   rangeStrategy: 'pin',
   semanticCommitScope: 'dependencies',
   commitMessageLowerCase: 'never',
+  "pre-commit": {
+    enabled: true
+  },
   username: 'renovate-bot',
   gitAuthor: 'Renovate Bot <bot@renovateapp.com>',
   onboarding: true,
