@@ -16,6 +16,7 @@ module.exports = {
     'erNail/erNail.github.io',
     'erNail/nail-renovate-config',
     'erNail/glpushrule',
-    'erNail/grafaml'
+    'erNail/grafaml',
+    'erNail/labdoc'
   ],
 };
