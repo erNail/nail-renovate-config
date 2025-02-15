@@ -17,6 +17,7 @@ module.exports = {
     'erNail/nail-renovate-config',
     'erNail/glpushrule',
     'erNail/grafaml',
-    'erNail/labdoc'
+    'erNail/labdoc',
+    'erNail/verscout'
   ],
 };
