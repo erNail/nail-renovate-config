@@ -1,0 +1,86 @@
+---
+name: "CI/CD"
+
+"on":
+  push: {}
+
+permissions:
+  actions: "write"
+  contents: "write"
+  issues: "write"
+  pull-requests: "write"
+  checks: "write"
+  deployments: "write"
+
+jobs:
+  pre-commit-job:
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4.1.7"
+      - name: "Set up python and pip cache"
+        uses: "actions/setup-python@v5.1.0"
+        with:
+          python-version: "3.11.4"
+          cache: "pip"
+      - name: "Install dependencies"
+        run: "pip install -r requirements.txt"
+      - name: "Set up pre-commit cache"
+        uses: "actions/cache@v4.0.2"
+        with:
+          path: "~/.cache/pre-commit"
+          key: "pre-commit|${{ env.pythonLocation }}|${{ hashFiles('.pre-commit-config.yaml') }}"
+      - name: "Run pre-commit"
+        run: "pre-commit run --all-files --color=always --show-diff-on-failure"
+
+  determine-version-job:
+    runs-on: "ubuntu-22.04"
+    container:
+      image: "ernail/verscout:1.3.0"
+      volumes:
+        - "${{ github.workspace }}:/workspace"
+    outputs:
+      version: "${{ steps.get_version.outputs.version }}"
+    steps:
+      - name: "Check out repository"
+        uses: "actions/checkout@v4.2.2"
+        with:
+          fetch-depth: 0
+      - name: "Run verscout next"
+        id: "get_version"
+        run: |
+          VERSION=$(verscout next)
+          if [ -z "$VERSION" ]; then
+            exit 0
+          fi
+          if [ "${{ github.ref_name }}" != "${{ github.event.repository.default_branch }}" ]; then
+            VERSION="${VERSION}-rc"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+  release-job:
+    runs-on: "ubuntu-22.04"
+    needs:
+      - "determine-version-job"
+    if: "needs.determine-version-job.outputs.VERSION != ''"
+    permissions:
+      contents: "write"
+    steps:
+      - name: "Check out repository"
+        uses: "actions/checkout@v4.2.2"
+        with:
+          fetch-depth: 0
+      - name: "Generate release notes"
+        uses: "orhun/git-cliff-action@v4.4.2"
+        with:
+          args: "--tag ${{ needs.determine-version-job.outputs.VERSION }} --unreleased --strip header"
+        env:
+          OUTPUT: "release-notes.md"
+      - name: "Create tag"
+        run: "git tag ${{ needs.determine-version-job.outputs.VERSION }}"
+      - name: "Create GitHub Release"
+        uses: "softprops/action-gh-release@v2.2.1"
+        with:
+          name: "${{ needs.determine-version-job.outputs.VERSION }}"
+          tag_name: "${{ needs.determine-version-job.outputs.VERSION }}"
+          body_path: "release-notes.md"
